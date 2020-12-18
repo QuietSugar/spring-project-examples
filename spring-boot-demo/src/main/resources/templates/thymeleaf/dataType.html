@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>测试窗口</title>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+
+<p>多类别测试</p>
+<form action="/data/ma" method="post">
+    <label>stringValue:<input type="text" name="stringValue" value="字符串类型"/></label>
+    <!--simpleBasicDataType-->
+    <label>整型:<input type="text" name="simpleBasicDataType.basicInt" value="1234560"/></label>
+    <label>单精度浮点数:<input type="text" name="simpleBasicDataType.basicFloat" value="12.3"/></label>
+    <label>布尔类型:<input type="text" name="simpleBasicDataType.basicBoolean" value="true"/></label>
+    <!--simpleWrapDataType-->
+    <label>整型:<input type="text" name="simpleWrapDataType.wrapInteger" value="1234560"/></label>
+    <label>单精度浮点数:<input type="text" name="simpleWrapDataType.wrapFloat" value="12.3"/></label>
+    <label>布尔类型:<input type="text" name="simpleWrapDataType.wrapBoolean" value="true"/></label>
+
+    <label>第一元素<input type="text" name="card[0].point" value="2"/></label>
+    <label>第一元素<input type="text" name="card[0].colour" value="第一元素"/></label>
+    <label>第二元素<input type="text" name="card[1].point" value="4"/></label>
+    <label>第二元素<input type="text" name="card[1].colour" value="第二元素"/></label>
+    <label><input type="submit"></label>
+</form>
+
+
+<p>文件上传</p>
+<form action="TransServlet" method="post" enctype="multipart/form-data">
+
+    <input type="text" name="transCode" value="X01051"/>
+    <input type="file" name="fileName"/>
+    <input type="submit">
+</form>
+
+<script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var submitData = {
+        stringType: "我是字符内容----",
+        intType: 1234560,
+        floatType: 12.3,
+        doubleType: 123.56,
+        booleanType: true,
+        cardList: [{point: "1", colour: "第一元素"}, {point: "2", colour: "第二元素"}]
+    };
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        url: "/rest/trans",
+        contentType: "application/json",
+        data: JSON.stringify(submitData),
+        dataType: "json",
+        success: function (result) {
+            console.log(result);
+        }
+    });
+</script>
+</body>
+</html>

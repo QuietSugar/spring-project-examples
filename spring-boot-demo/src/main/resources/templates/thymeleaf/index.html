@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>测试页面</title>
+    <style type="text/css">
+
+    </style>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/dataUtil.js}" type="text/javascript"></script>
+</head>
+<body>
+<div>
+    <span>各种提交方式测试</span>
+    <span>全部都是以 "application/json" 格式返回 ，区别在于对象和字符串</span>
+</div>
+
+<div>
+    <p>请求信息</p>
+    <table id="testTable" class="table table-striped">
+        <tr>
+            <th>Content-Type [参数格式]</th>
+            <th>提交数据</th>
+            <th>服务端接收方式</th>
+            <th>操作</th>
+        </tr>
+    </table>
+</div>
+
+<div id="result">result</div>
+
+<script type="text/javascript">
+    //提交的类型
+    const contentTypeList = {
+        default: {
+            paramFormat: "Form Data",
+            value: "application/x-www-form-urlencoded"
+
+        },
+        json: {
+            paramFormat: "Request Payload",
+            value: "application/json"
+        },
+        text: {
+            paramFormat: "请用F12",
+            value: "text/plain"
+        }
+    };
+    const submitDataList = {
+        simpleJsonObject: {
+            // 数据的描述
+            name: "单层json对象",
+            // 原始的数据 (一个对象)
+            obj: simplestJavaData,
+            // 最终真正提交的数据
+            value: simplestJavaData
+        }, jsonObject: {
+            name: "json对象",
+            obj: simpleJavaData,
+            value: simpleJavaData
+        },
+        jsonString: {
+            name: "复合json字符串",
+            obj: simpleJavaData,
+            value: JSON.stringify(simpleJavaData)
+        }
+    };
+    const serverInfos = {
+        flatMa: {
+            url: "/data/flat/ma",
+            desc: "使用 @ModelAttribute 注解接收单层对象"
+        },
+        flatRp: {
+            url: "/data/flat/rp",
+            desc: "使用多个  @RequestParam 注解接收单层对象"
+        },
+        complexRb: {
+            url: "/data/complex/rb",
+            desc: "使用  @RequestBody 注解接收复合对象"
+        }
+    };
+    // 初始化
+    const upTable = [{
+        serverInfo: serverInfos.flatMa,
+        dataInfo: submitDataList.simpleJsonObject,
+        contentInfo: contentTypeList.default,
+    }, {
+        serverInfo: serverInfos.flatRp,
+        dataInfo: submitDataList.simpleJsonObject,
+        contentInfo: contentTypeList.default,
+    }, {
+        serverInfo: serverInfos.complexRb,
+        dataInfo: submitDataList.jsonString,
+        contentInfo: contentTypeList.json,
+    }];
+
+
+    //初始化显示的表格
+    initTable(upTable);
+
+    function commit(i) {
+        // 先清除页面上的结果
+        clearResult();
+        let element = upTable[i];
+        $.ajax({
+            type: "POST",
+            url: element.serverInfo.url,
+            contentType: element.contentInfo.value + ";charset=utf-8",
+            data: element.dataInfo.value,
+                success: function (result) {
+                    console.log(result);
+                    let success = isEqual(element.dataInfo.obj, result);
+                    showResult(success, JSON.stringify(result, null, 2));
+                }
+            }
+        )
+    }
+    //初始化表格
+    function initTable(upTable) {
+        for (let i = 0; i < upTable.length; i++) {
+            //添加行
+            let element = upTable[i];
+            $("#testTable").append(createNewRowStr(i, element.contentInfo.value, element.contentInfo.paramFormat, element.dataInfo.name, element.serverInfo.desc));
+        }
+    }
+
+    //创建表格一行
+    function createNewRowStr(index, contentValue, paramFormat, dataDescription, serverInfo) {
+        let op = "<input type=\"button\" onclick=\"commit(" + index + ")\" value=\"commit\">";
+        let showDataButton = "<button onclick=\"setData(" + index + ")\" >" + dataDescription +"</button>";
+        return "<tr><td>" + contentValue + "[" + paramFormat + "]" + "</td><td>" + showDataButton + "</td><td>" + serverInfo + "</td><td>" + op + "</td></tr>"
+    }
+
+    function setData(index) {
+        $("#result").html("<div><pre><code>" + JSON.stringify(upTable[index].dataInfo.obj, null, 2) + "</code></pre></div>");
+    }
+
+    function showResult(title, data) {
+        $("#result").html("<div>检验结果:" + title + "</div><div><pre><code>" + data + "</code></pre></div>");
+    }
+
+    function clearResult() {
+        $("#result").html("");
+    }
+</script>
+</body>
+
+</html>
