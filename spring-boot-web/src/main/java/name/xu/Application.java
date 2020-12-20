@@ -8,9 +8,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * Maybe has infinite possibilities
+ * Main
  *
- * @author Created by sugar on 2018/5/26
+ * @author Created by xu
  */
 @SpringBootApplication
 @EnableScheduling

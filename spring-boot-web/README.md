@@ -1,4 +1,4 @@
-# spring-boot-demo
+# spring-boot-web
 
 使用特性
 - jpa自动建表

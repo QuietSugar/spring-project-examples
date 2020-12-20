@@ -10,7 +10,7 @@
     <groupId>name.xu</groupId>
     <artifactId>spring-boot-noweb</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.01</version>
     <name>spring-boot-noweb</name>
     <properties>
         <java.version>1.8</java.version>
@@ -30,8 +30,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
     <build>

@@ -4,15 +4,47 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>name.xu</groupId>
     <artifactId>spring-project-examples</artifactId>
+    <version>0.01</version>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.1.RELEASE</version>
+        <relativePath/>
+    </parent>
     <modules>
-        <module>spring-boot-demo</module>
+        <module>spring-boot-web</module>
         <module>spring-boot-noweb</module>
         <module>sb-jpa</module>
+        <module>spring-boot-modules</module>
+        <module>sbs-interceptor</module>
     </modules>
-    <name>spring-project-examples</name>
+    <name>spring-project-examples-name</name>
     <build>
-        <finalName>spring-project-examples</finalName>
+        <finalName>spring-project-examples-finalName</finalName>
     </build>
+    <!--    共有依赖,会被所有子模块自动引入-->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    <!--    依赖管理,管理版本,需要写明 groupId 和 artifactId 才会引入-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.13</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
