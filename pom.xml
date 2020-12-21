@@ -18,6 +18,7 @@
         <module>sb-jpa</module>
         <module>spring-boot-modules</module>
         <module>sbs-interceptor</module>
+        <module>spe-entity</module>
     </modules>
     <name>spring-project-examples-name</name>
     <build>

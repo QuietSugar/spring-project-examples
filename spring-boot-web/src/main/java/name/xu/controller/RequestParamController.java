@@ -2,8 +2,7 @@ package name.xu.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import name.xu.pojo.common.SimpleJavaData;
-import name.xu.pojo.common.SimplestJavaData;
+import name.xu.entity.Area;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,17 +29,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @ResponseBody
 @RequestMapping(value = "/data", method = {RequestMethod.POST, RequestMethod.GET})
-public class SimpleJavaDataController {
-    private static final Logger log = LoggerFactory.getLogger(SimpleJavaDataController.class);
+public class RequestParamController {
+    private static final Logger log = LoggerFactory.getLogger(RequestParamController.class);
 
     /**
      * 扁平对象
      * 使用 ModelAttribute 注解接收
      */
     @RequestMapping(value = "/flat/ma")
-    public SimplestJavaData sjdma(@ModelAttribute SimplestJavaData simplestJavaData) {
-        log.info("接收到数据:{}", JSON.toJSONString(simplestJavaData));
-        return simplestJavaData;
+    public Area sjdma(@ModelAttribute Area area) {
+        log.info("接收到数据:{}", JSON.toJSONString(area));
+        return area;
     }
 
     /**
@@ -48,19 +47,15 @@ public class SimpleJavaDataController {
      * 使用 RequestParam 注解接收
      */
     @RequestMapping(value = "/flat/rp")
-    public SimplestJavaData sjdRp(
-            @RequestParam int intType,
-            @RequestParam float floatType,
-            @RequestParam boolean booleanType,
-            @RequestParam String stringType
+    public Area sjdRp(
+            @RequestParam int id,
+            @RequestParam String name
     ) {
-        SimplestJavaData simplestJavaData = new SimplestJavaData();
-        simplestJavaData.setIntType(intType);
-        simplestJavaData.setFloatType(floatType);
-        simplestJavaData.setBooleanType(booleanType);
-        simplestJavaData.setStringType(stringType);
-        log.info("接收到数据:{}", JSON.toJSONString(simplestJavaData));
-        return simplestJavaData;
+        Area area = new Area();
+        area.setId(id);
+        area.setName(name);
+        log.info("接收到数据:{}", JSON.toJSONString(area));
+        return area;
     }
 
 
@@ -69,8 +64,8 @@ public class SimpleJavaDataController {
      * 使用 RequestBody 注解接收
      */
     @RequestMapping(value = "/complex/rb")
-    public SimpleJavaData rb(@RequestBody SimpleJavaData simpleJavaData) {
-        log.info("接收到数据:{}", JSON.toJSONString(simpleJavaData));
-        return simpleJavaData;
+    public Area rb(@RequestBody Area area) {
+        log.info("接收到数据:{}", JSON.toJSONString(area));
+        return area;
     }
 }

@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sbm-controller</artifactId>
+    <artifactId>sbm-shell</artifactId>
 
-    <name>sbm-controller</name>
+    <name>sbm-shell</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,29 +26,27 @@
             <version>0.01</version>
         </dependency>
         <dependency>
-            <groupId>name.xu</groupId>
-            <artifactId>sbs-interceptor</artifactId>
-            <version>0.01</version>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 
     <build>
+        <finalName>sbm-shell</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <layout>ZIP</layout>
+                    <includes>
+                        <!-- 设置没有jar包-->
+                        <include>
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
                     <excludeGroupIds>
-
                     </excludeGroupIds>
                 </configuration>
             </plugin>
