@@ -19,6 +19,7 @@
         <module>spring-boot-modules</module>
         <module>sbs-interceptor</module>
         <module>spe-entity</module>
+        <module>spring-boot-websocket</module>
     </modules>
     <name>spring-project-examples-name</name>
     <build>

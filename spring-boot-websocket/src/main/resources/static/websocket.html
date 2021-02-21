@@ -1,0 +1,118 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div>
+    服务地址: <input type="text" id="serverUrl"/>
+    <br>
+    <input type="button" value="点击连接" id="connect"/>
+    <br>
+    <input type="text" id="msg"/>
+    发送目标:
+    <select id="desSelect">
+        <option value="/messageAndReplyByAnnotations">/messageAndReplyByAnnotations</option>
+        <option value="/handle1">handle1</option>
+        <option value="/handle2">handle2</option>
+    </select>
+    <input type="button" value="点击发送" id="send"/>
+
+
+</div>
+<!--slim版本 ,没有ajax和特效-->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/sockjs-client/1.1.1/sockjs.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.js"></script>
+<!--<script type="text/javascript" src="../js/screenLog.js"></script>-->
+<script>
+    console.log("Chinese test :  中文测试");
+    // screenLog.init();
+    console.log('console.log also gets logged.');
+    let stompClient = null;
+
+    //定义全局变量，代表一个 session
+    function connect() {
+        //定义连接函数
+        if (stompClient == null || !stompClient.connected) {
+            // url后面附带的参数
+            let urlParametersMap = new Map();
+            urlParametersMap.set('token', 'token_by_token');
+            let urlParameters  = '?';
+            urlParametersMap.forEach(function (value, key, map) {
+                urlParameters = urlParameters + key + "=" + value + "&";
+            });
+            let headers = {
+                "name": "root",
+                "password": "123456"
+            };
+            let sockJS = new SockJS($("#serverUrl").val()+urlParameters);
+            // stompClient = Stomp.over(sockJS, null, { timeout: 15000});
+            stompClient = Stomp.over(sockJS);
+            stompClient.heartbeat.outgoing = 20000; //若使用STOMP 1.1 版本，默认开启了心跳检测机制（默认值都是10000ms）
+            stompClient.heartbeat.incoming = 0; //客户端不从服务端接收心跳包
+            console.log("当前处于断开状态,尝试连接");
+            stompClient.connect(headers, connectCallback, errorCallback);
+        } else {
+            console.log('connected.');
+        }
+    }
+
+    //连接成功时的回调函数
+    function connectCallback(frame) {
+        console.log('connection successful :\r\n ', JSON.stringify(frame, null, "    "));
+        // let send = stompClient.send("/message", {}, "I'm in " + window.location.href);
+        // console.log('send result :\r\n ', JSON.stringify(send, null, "    "));
+        //
+        // // 订阅消息
+        // stompClient.subscribe('/topic/public', function (response) {
+        //     console.log('response :\r\n ', JSON.stringify(response.body, null, "    "));
+        // });
+        // spring websocket 能识别带”/user”的订阅路径并做出处理
+        // 例如，如果浏览器客户端，订阅了’/user/topic/greetings’这条路径
+        // 就会被spring websocket利用UserDestinationMessageHandler进行转化成
+        // ”/topic/greetings-usererbgz2rq”,”usererbgz2rq”中，user是关键字，erbgz2rq是sessionid，
+        // 这样子就把用户和订阅路径唯一的匹配起来了
+        // stompClient.subscribe('/user/topic/greetings', function(response) {
+        //     console.log('response :\r\n ', JSON.stringify(response.body, null, "    "));
+        // });
+        // stompClient.subscribe('/user/topic/greetings1', function(response) {
+        //     console.log('response :\r\n ', JSON.stringify(response.body, null, "    "));
+        // }   );
+
+        // stompClient.subscribe('/topic/greetings2', function(response) {
+        //     console.log('response :\r\n ', JSON.stringify(response.body, null, "    "));
+        // });
+    }
+
+    //连接失败时的回调函数
+    function errorCallback(frame) {
+        console.log('connection unsuccessful : ', frame);
+    }
+
+    //初始化
+    function init() {
+
+        const defaultUrl = 'http://localhost:30001/websocket/server';
+        $("#serverUrl").val(defaultUrl);
+
+        $('#connect').bind('click', function () {
+            //建立连接
+            connect();
+        });
+        $('#send').bind('click', function () {
+            if (stompClient == null || !stompClient.connected) {
+                console.log('还没有连接 ');
+            } else {
+                let desSelect = $("#desSelect").val();
+                console.log('将要发送到:  ' + desSelect);
+                //发送
+                stompClient.send(desSelect, {"token": "admin_token",}, $("#msg").val());
+            }
+        });
+    }
+
+    init();
+</script>
+
+</body>
+</html>
