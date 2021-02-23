@@ -1,0 +1,10 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: SpringBootAdmin
+  boot:
+    admin:
+      ui:
+        title: SpringBootAdmin-Server
+        available-languages: zh

@@ -1,0 +1,13 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# idea工具
+.idea
+
+/target/
+/config/
+.settings
+logs
+*.iml
+.project
+.classpath
+

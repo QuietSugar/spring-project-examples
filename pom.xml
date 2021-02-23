@@ -20,6 +20,7 @@
         <module>sbs-interceptor</module>
         <module>spe-entity</module>
         <module>spring-boot-websocket</module>
+        <module>spring-boot-admin-server-docker</module>
     </modules>
     <name>spring-project-examples-name</name>
     <build>
