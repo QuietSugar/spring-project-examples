@@ -21,6 +21,7 @@
         <module>spe-entity</module>
         <module>spring-boot-websocket</module>
         <module>spring-boot-admin-server-docker</module>
+        <module>spring-boot-db</module>
     </modules>
     <name>spring-project-examples-name</name>
     <build>
